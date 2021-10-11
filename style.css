@@ -1,9 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
 
-* {
-  box-sizing: border-box;
-}
-
 body {
   background: linear-gradient(300deg, #ced1d6, #bfc0c0);
   font-family: "Poppins", sans-serif;
@@ -39,4 +35,11 @@ input:focus {
   display: flex;
   align-items: center;
   margin-bottom: 0;
+}
+.location {
+  text-align: center;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
 }
