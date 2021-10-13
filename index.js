@@ -11,7 +11,7 @@ function addWeatherToPage(data) {
   weather.classList.add("weather");
   weather.innerHTML = `
         <h2><img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" /> ${temp}°C <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" /></h2>
-        <small>${data.weather[0].main}</small>`;
+        <small>${data.weather[0].description}</small>`;
 
   main.innerHTML = "";
   main.appendChild(weather);
@@ -25,8 +25,12 @@ async function getWeatherByName(city) {
   const resp = await fetch(url(city), { origin: "cors" });
   const respData = await resp.json();
   addWeatherToPage(respData);
+  addLocationM(respData);
 }
-
+function addLocationM(city) {
+  city = city.name;
+  document.getElementById("location").innerText = `Showing Weather in ${city}`;
+}
 form.addEventListener("submit", (e) => {
   e.preventDefault();
 
@@ -43,7 +47,6 @@ function success(position) {
   let longitude = position.coords.longitude;
   let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
   let urlL = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-
   async function getWeatherByLocation() {
     const resp = await fetch(url, { origin: "cors" });
     const respData = await resp.json();
@@ -57,7 +60,10 @@ function success(position) {
   getWeatherByLocation();
 }
 function addLocation(location) {
-  document.getElementById("location").innerText = location.display_name;
+  location = location.display_name;
+  document.getElementById(
+    "location"
+  ).innerText = `Showing Weather in ${location}`;
 }
 // function add
 function error() {
