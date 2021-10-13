@@ -135,7 +135,7 @@ function success(position) {
   getWeatherByLocation();
 }
 function addLocation(location) {
-  location = `${location.address.neighbourhood}, ${location.address.suburb}, ${location.address.county}`;
+  location = `${location.address.county}`;
   document.getElementById("location").innerText = location;
 }
 
