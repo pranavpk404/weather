@@ -1,4 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap");
+
+:root {
+  --main-bg: hsl(0, 0%, 15%);
+  --main-color: hsl(104, 14%, 64%);
+
+  --other-details-bg: hsl(105, 4%, 22%);
+  --other-details-color: hsl(105, 4%, 60%);
+
+  --forecast-card-bg: hsl(103, 6%, 42%);
+
+  --today-card-bg: hsl(104, 14%, 30%);
+  --today-card-color: hsl(0deg 0% 95%);
+  --day-bg: hsl(104, 14%, 40%);
+
+  --forecast-bg: hsl(0, 0%, 30%);
+  --forecast-color: hsl(102, 29%, 87%);
+  --other-day-bg-day: hsl(240, 6%, 25%);
+}
+
 @keyframes rotation {
   from {
     transform: rotate(0deg);
@@ -18,13 +37,13 @@ body {
   background-size: cover;
   overflow: hidden;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.76);
   font-family: "Poppins", sans-serif;
+  background: var(--main-bg);
 }
 
 .container {
+  color: var(--main-color);
   padding: 20px 70px;
-  color: white;
 }
 
 .current-info {
@@ -33,7 +52,7 @@ body {
   flex-wrap: wrap;
 }
 .date-container {
-  font-weight: 100;
+  font-weight: 400;
 }
 .date-container .time {
   font-size: 70px;
@@ -54,7 +73,7 @@ body {
 
 .place-container .time-zone {
   font-size: 30px;
-  font-weight: 100;
+  font-weight: 400;
 }
 div:not(.container, .current-info, .date-container, .place-container, .future-forecast, .weather-forecast) {
   animation: rotation 1s 1s;
@@ -63,7 +82,8 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
 .current-info .others {
   display: flex;
   flex-direction: column;
-  background: rgba(24, 24, 27, 0.6);
+  background: var(--other-details-bg);
+  color: var(--other-details-color);
   padding: 20px;
   border-radius: 10px;
 }
@@ -74,20 +94,18 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
 }
 
 .future-forecast {
-  background: rgba(24, 24, 27, 0.8);
+  background: var(--forecast-card-bg);
+  color: var(--forecast-color);
   padding: 25px;
   position: fixed;
   bottom: 0;
   display: flex;
-  color: white;
   width: 100%;
   align-items: center;
   justify-content: center;
   overflow-y: hidden;
 }
-.bg {
-  color: red;
-}
+
 .future-forecast .today {
   display: flex;
   align-items: center;
@@ -97,14 +115,15 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
   padding: 15px;
   padding-right: 40px;
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.2);
+  background: var(--today-card-bg);
+  color: var(--today-card-color);
 }
 
 .future-forecast .today .day {
   padding: 5px 15px;
-  background: #3c3c44;
   border-radius: 50px;
   text-align: center;
+  background: var(--day-bg);
 }
 
 .future-forecast .today .temp {
@@ -127,18 +146,19 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
   padding: 15px;
   border: 1px solid rgb(87, 81, 81);
   border-radius: 10px;
-  background: rgba(0, 0, 0, 0.2);
+  background-color: var(--forecast-bg);
+  color: var(--forecast-color-bg);
 }
 
 .weather-forecast .weather-forecast-item .day {
   padding: 5px 15px;
-  background: #3c3c44;
+  background: var(--other-day-bg-day);
   border-radius: 50px;
   text-align: center;
 }
 
 .weather-forecast .weather-forecast-item .temp {
-  font-weight: 100;
+  font-weight: 400;
   font-size: 15px;
 }
 
