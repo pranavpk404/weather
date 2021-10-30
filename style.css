@@ -66,8 +66,6 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
   background: rgba(24, 24, 27, 0.6);
   padding: 20px;
   border-radius: 10px;
-
-  border: 1px solid #eee;
 }
 
 .current-info .others .weather-item {
@@ -92,7 +90,7 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #eee;
+  border: 1px solid rgb(87, 81, 81);
   border-radius: 10px;
   padding: 15px;
   padding-right: 40px;
@@ -108,7 +106,7 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
 }
 
 .future-forecast .today .temp {
-  font-size: 18px;
+  font-size: 16px;
   padding-top: 15px;
 }
 
@@ -122,8 +120,9 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
   align-items: center;
   justify-content: center;
   margin: 0 10px;
-  border: 1px solid #eee;
+
   padding: 15px;
+  border: 1px solid rgb(87, 81, 81);
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.2);
 }
@@ -137,7 +136,7 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
 
 .weather-forecast .weather-forecast-item .temp {
   font-weight: 100;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 @media only screen and (max-width: 730px) {
