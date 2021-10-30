@@ -1,38 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;400;700&display=swap");
-
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
-/* #input {
-  background-color: #fff;
-  border: none;
-  border-radius: 25px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  font-family: inherit;
-  font-size: 20px;
-  padding: 10px;
-  min-width: 300px;
-  text-transform: capitalize;
-}
 
-#input:focus {
-  outline: none;
-} */
 body {
-  /* background: url("https://images.unsplash.com/photo-1621274403997-37aace184f49?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1"); */
   background-repeat: no-repeat;
   background-size: cover;
   overflow: hidden;
   height: 100vh;
-  background: black;
+  background: rgba(0, 0, 0, 0.76);
   font-family: "Poppins", sans-serif;
 }
 
 .container {
   padding: 20px 70px;
-  color: #fff;
+  color: white;
 }
 
 .current-info {
@@ -63,6 +55,9 @@ body {
 .place-container .time-zone {
   font-size: 30px;
   font-weight: 100;
+}
+div:not(.container, .current-info, .date-container, .place-container, .future-forecast, .weather-forecast) {
+  animation: rotation 1s 1s;
 }
 
 .current-info .others {
