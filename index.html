@@ -2,28 +2,103 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Weather App</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap"
-      rel="stylesheet"
-    />
+    <title>Weather App</title>
     <link rel="shortcut icon" href="icon.svg" type="image/x-icon" />
   </head>
   <body>
-    <div id="error"> </div>
-    <form id="form">
-      <input
-        type="text"
-        id="search"
-        placeholder="Search by location"
-        autocomplete="off"
-      />
-    </form>
-    <main id="main"></main>
+    <div class="container">
+      <div class="current-info">
+        <div class="date-container">
+          <div class="time" id="time">12:30 <span id="am-pm">PM</span></div>
+          <div class="date" id="date">Monday, 25 May</div>
+
+          <div class="others" id="current-weather-items"></div>
+        </div>
+
+        <div class="place-container">
+          <div class="time-zone" id="time-zone"></div>
+          <input type="text" id="input" placeholder="Search by location" />
+        </div>
+      </div>
+    </div>
+
+    <div class="future-forecast">
+      <div class="today" id="current-temp">
+        <img
+          src="http://openweathermap.org/img/wn/10d@2x.png"
+          alt="weather icon"
+          class="w-icon"
+        />
+        <div class="other">
+          <div class="day">Monday</div>
+          <div class="temp">Night - 25.6&#176; C</div>
+          <div class="temp">Day - 35.6&#176; C</div>
+        </div>
+      </div>
+
+      <div class="weather-forecast" id="weather-forecast">
+        <div class="weather-forecast-item">
+          <div class="day">Tue</div>
+          <img
+            src="http://openweathermap.org/img/wn/10d@2x.png"
+            alt="weather icon"
+            class="w-icon"
+          />
+          <div class="temp">Night - 25.6&#176; C</div>
+          <div class="temp">Day - 35.6&#176; C</div>
+        </div>
+        <div class="weather-forecast-item">
+          <div class="day">Wed</div>
+          <img
+            src="http://openweathermap.org/img/wn/10d@2x.png"
+            alt="weather icon"
+            class="w-icon"
+          />
+          <div class="temp">Night - 25.6&#176; C</div>
+          <div class="temp">Day - 35.6&#176; C</div>
+        </div>
+        <div class="weather-forecast-item">
+          <div class="day">Thur</div>
+          <img
+            src="http://openweathermap.org/img/wn/10d@2x.png"
+            alt="weather icon"
+            class="w-icon"
+          />
+          <div class="temp">Night - 25.6&#176; C</div>
+          <div class="temp">Day - 35.6&#176; C</div>
+        </div>
+        <div class="weather-forecast-item">
+          <div class="day">Fri</div>
+          <img
+            src="http://openweathermap.org/img/wn/10d@2x.png"
+            alt="weather icon"
+            class="w-icon"
+          />
+          <div class="temp">Night - 25.6&#176; C</div>
+          <div class="temp">Day - 35.6&#176; C</div>
+        </div>
+        <div class="weather-forecast-item">
+          <div class="day">Sat</div>
+          <img
+            src="http://openweathermap.org/img/wn/10d@2x.png"
+            alt="weather icon"
+            class="w-icon"
+          />
+          <div class="temp">Night - 25.6&#176; C</div>
+          <div class="temp">Day - 35.6&#176; C</div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
+      integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
   </body>
-  <script src="js/index.js" defer></script>
+  <script src="js/index.js"></script>
 </html>

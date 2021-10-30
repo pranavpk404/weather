@@ -1,161 +1,141 @@
-const apikey = "3265874a2c77ae4a04bb96236a642d2f";
-const main = document.getElementById("main");
-const form = document.getElementById("form");
-const search = document.getElementById("search");
-function KtoC(K) {
-  return Math.floor(K - 273.15);
+const timeEl = document.getElementById("time");
+const dateEl = document.getElementById("date");
+const currentWeatherItemsEl = document.getElementById("current-weather-items");
+const timezone = document.getElementById("time-zone");
+const weatherForecastEl = document.getElementById("weather-forecast");
+const currentTempEl = document.getElementById("current-temp");
+
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
+const months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+const API_KEY = "3265874a2c77ae4a04bb96236a642d2f";
+
+setInterval(() => {
+  const time = new Date();
+  const month = time.getMonth();
+  const date = time.getDate();
+  const day = time.getDay();
+  const hour = time.getHours();
+  const hoursIn12HrFormat = hour >= 13 ? hour % 12 : hour;
+  const minutes = time.getMinutes();
+  const ampm = hour >= 12 ? "PM" : "AM";
+
+  timeEl.innerHTML =
+    (hoursIn12HrFormat < 10 ? "0" + hoursIn12HrFormat : hoursIn12HrFormat) +
+    ":" +
+    (minutes < 10 ? "0" + minutes : minutes) +
+    " " +
+    `<span id="am-pm">${ampm}</span>`;
+
+  dateEl.innerHTML = days[day] + ", " + date + " " + months[month];
+}, 1000);
+
+getWeatherData();
+function getWeatherData() {
+  navigator.geolocation.getCurrentPosition((success) => {
+    let { latitude, longitude } = success.coords;
+
+    fetch(
+      `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        timezone.innerHTML = data.address.county;
+      });
+
+    fetch(
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=hourly,minutely&units=metric&appid=${API_KEY}`
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        showWeatherData(data);
+      });
+  });
 }
 
-// forecast();
+function showWeatherData(data) {
+  console.log(data);
+  let { humidity, pressure, sunrise, sunset, wind_speed } = data.current;
 
-function addWeatherToPage(data, location) {
-  // Date
-  let d = new Date();
-  let date = d.getDate();
-  let month = d.getMonth() + 1;
-  let year = d.getFullYear();
+  currentWeatherItemsEl.innerHTML = `<div class="weather-item">
+        <div>Humidity</div>
+        <div>${humidity}%</div>
+    </div>
+    <div class="weather-item">
+        <div>Pressure</div>
+        <div>${pressure}</div>
+    </div>
+    <div class="weather-item">
+        <div>Wind Speed</div>
+        <div>${wind_speed}</div>
+    </div>
 
-  const temp = KtoC(data.main.temp);
-  const weather = document.createElement("div");
-  weather.classList.add("weather");
-  weather.innerHTML = `
-    <div class="card" id="card">
-      <h2>${date}/${month}/${year}</h2>
-      <h2 id="location"></h2>
-      <h3>${data.weather[0].main}</h3>
-      <h1>${temp}°C</h1>
-      <div class="img"><img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" /></div>
-        <table id="table">
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </table>
-  </div>
+    <div class="weather-item">
+        <div>Sunrise</div>
+        <div>${window.moment(sunrise * 1000).format("HH:mm a")}</div>
+    </div>
+    <div class="weather-item">
+        <div>Sunset</div>
+        <div>${window.moment(sunset * 1000).format("HH:mm a")}</div>
+    </div>
 
-`;
-  main.innerHTML = "";
-  main.appendChild(weather);
-  forecast(location);
-}
+    `;
 
-// Manual
-try {
-  async function getWeatherByName(city) {
-    const url = (city) =>
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apikey}`;
-    var transfer = city;
+  let otherDayForcast = "";
+  data.daily.forEach((day, idx) => {
+    if (idx == 0) {
+      currentTempEl.innerHTML = `
+            <img src="http://openweathermap.org/img/wn//${
+              day.weather[0].icon
+            }@4x.png" alt="weather icon" class="w-icon">
+            <div class="other">
+                <div class="day">${window
+                  .moment(day.dt * 1000)
+                  .format("dddd")}</div>
+                <div class="temp">Night - ${day.temp.night}&#176;C</div>
+                <div class="temp">Day - ${day.temp.day}&#176;C</div>
+            </div>
 
-    const resp = await fetch(url(city), { origin: "cors" });
-    const respData = await resp.json();
-    addWeatherToPage(respData);
-    addLocationM(respData);
-  }
-  function addLocationM(city) {
-    city = city.name;
-    document.getElementById("location").innerText = city;
-  }
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
+            `;
+    } else {
+      otherDayForcast += `
+            <div class="weather-forecast-item">
+                <div class="day">${window
+                  .moment(day.dt * 1000)
+                  .format("ddd")}</div>
+                <img src="http://openweathermap.org/img/wn/${
+                  day.weather[0].icon
+                }@2x.png" alt="weather icon" class="w-icon">
+                <div class="temp">Night - ${day.temp.night}&#176;C</div>
+                <div class="temp">Day - ${day.temp.day}&#176;C</div>
+            </div>
 
-    const city = search.value;
-    ``;
-    if (city) {
-      getWeatherByName(city, city);
+            `;
     }
   });
-} catch {
-  let error = document.getElementById("error");
-  error.innerText = "Some Error Have Occurred";
-}
 
-// Geolocation
-function success(position) {
-  let latitude = position.coords.latitude;
-  let longitude = position.coords.longitude;
-  let url = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apikey}`;
-  let urlL = `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`;
-
-  async function getWeatherByLocation() {
-    const resp = await fetch(url, { origin: "cors" });
-    const respData = await resp.json();
-
-    const respLocation = await fetch(urlL, { origin: "cors" });
-    const respDataLocation = await respLocation.json();
-
-    addWeatherToPage(respData, respDataLocation.address.county);
-    addLocation(respDataLocation);
-  }
-  getWeatherByLocation();
-}
-function addLocation(location) {
-  document.getElementById("location").innerText = location.address.county;
-  forecast(location.address.county);
-}
-
-function error() {
-  console.log("Unable to retrieve your location");
-}
-navigator.geolocation.getCurrentPosition(success, error);
-
-async function forecast(city) {
-  try {
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}`;
-    const forecastD = await fetch(url, { origin: "cors" });
-    const forecastJ = await forecastD.json();
-    processforecastJ(forecastJ.list);
-  } catch (error) {
-    let city = search.value;
-    const url = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apikey}`;
-    const forecastD = await fetch(url, { origin: "cors" });
-    const forecastJ = await forecastD.json();
-    processforecastJ(forecastJ.list);
-  }
-}
-
-function processforecastJ(list) {
-  let day1 = list.slice(9, 10);
-  let day2 = list.slice(17, 18);
-  let day3 = list.slice(25, 26);
-  let day4 = list.slice(33, 34);
-  let day5 = list.slice(39, 40);
-
-  let day1D = day1[0].dt_txt.split(" ");
-  let day2D = day2[0].dt_txt.split(" ");
-  let day3D = day3[0].dt_txt.split(" ");
-  let day4D = day4[0].dt_txt.split(" ");
-  let day5D = day5[0].dt_txt.split(" ");
-
-  let n = `
-  <table id="table">
-      <tr>
-        <td>${day1D[0]}</td>
-        <td>${day2D[0]}</td>
-        <td>${day3D[0]}</td>
-        <td>${day4D[0]}</td>
-        <td>${day5D[0]}</td>
-      </tr>
-      <tr>
-        <td>${KtoC(day1[0].main.temp)}°</td>
-        <td>${KtoC(day2[0].main.temp)}°</td>
-        <td>${KtoC(day3[0].main.temp)}°</td>
-        <td>${KtoC(day4[0].main.temp)}°</td>
-        <td>${KtoC(day5[0].main.temp)}°</td>
-      </tr>
-
-
-    </table>`;
-  let t = document.getElementById("table");
-
-  t.innerHTML = n;
+  weatherForecastEl.innerHTML = otherDayForcast;
 }
