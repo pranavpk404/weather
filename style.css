@@ -85,7 +85,9 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
   justify-content: center;
   overflow-y: hidden;
 }
-
+.bg {
+  color: red;
+}
 .future-forecast .today {
   display: flex;
   align-items: center;
@@ -108,6 +110,7 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
 .future-forecast .today .temp {
   font-size: 16px;
   padding-top: 15px;
+  white-space: nowrap;
 }
 
 .future-forecast .weather-forecast {
@@ -119,8 +122,8 @@ div:not(.container, .current-info, .date-container, .place-container, .future-fo
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 250px;
   margin: 0 10px;
-
   padding: 15px;
   border: 1px solid rgb(87, 81, 81);
   border-radius: 10px;

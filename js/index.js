@@ -61,7 +61,6 @@ function getWeatherData() {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         timezone.innerHTML = data.address.county;
       });
 
@@ -70,14 +69,12 @@ function getWeatherData() {
     )
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         showWeatherData(data);
       });
   });
 }
 
 function showWeatherData(data) {
-  console.log(data);
   let { humidity, pressure, sunrise, sunset, wind_speed } = data.current;
 
   currentWeatherItemsEl.innerHTML = `<div class="weather-item">
@@ -105,32 +102,35 @@ function showWeatherData(data) {
     `;
 
   let otherDayForcast = "";
-  data.daily.forEach((day, idx) => {
+  data.daily.forEach((e, idx) => {
     if (idx == 0) {
       currentTempEl.innerHTML = `
             <img src="http://openweathermap.org/img/wn//${
-              day.weather[0].icon
+              e.weather[0].icon
             }@4x.png" alt="weather icon" class="w-icon">
+            
             <div class="other">
                 <div class="day">${window
-                  .moment(day.dt * 1000)
+                  .moment(e.dt * 1000)
                   .format("dddd")}</div>
-                  <div class="temp">Day - ${Math.round(day.temp.day)}°C</div>
-                <div class="temp">Night - ${Math.round(day.temp.night)}°C</div>
-            </div>
-
+                  <div class="temp">Day - ${Math.round(e.temp.day)}°C</div>
+                <div class="temp">Night - ${Math.round(e.temp.night)}°C</div>
+                <div class="temp">${e.weather[0].description}</div>
+                </div>
+                
             `;
     } else {
       otherDayForcast += `
-            <div class="weather-forecast-item">
+            <div  class="weather-forecast-item">
                 <div class="day">${window
-                  .moment(day.dt * 1000)
+                  .moment(e.dt * 1000)
                   .format("ddd")}</div>
                 <img src="http://openweathermap.org/img/wn/${
-                  day.weather[0].icon
+                  e.weather[0].icon
                 }@2x.png" alt="weather icon" class="w-icon">
-                <div class="temp">Day - ${Math.round(day.temp.day)}°C</div>
-                <div class="temp">Night - ${Math.round(day.temp.night)}°C</div>
+                <div class="temp">Day - ${Math.round(e.temp.day)}°C</div>
+                <div class="temp">Night - ${Math.round(e.temp.night)}°C</div>
+                <div class="temp">${e.weather[0].description}</div>
             </div>
 
             `;
