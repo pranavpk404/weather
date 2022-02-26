@@ -51,8 +51,7 @@ setInterval(() => {
   dateEl.innerHTML = days[day] + ", " + date + " " + months[month];
 }, 1000);
 
-getWeatherData();
-function getWeatherData() {
+getWeatherData = () => {
   navigator.geolocation.getCurrentPosition((success) => {
     let { latitude, longitude } = success.coords;
 
@@ -72,9 +71,9 @@ function getWeatherData() {
         showWeatherData(data);
       });
   });
-}
-
-function showWeatherData(data) {
+};
+getWeatherData();
+showWeatherData = (data) => {
   let { humidity, pressure, sunrise, sunset, wind_speed } = data.current;
 
   currentWeatherItemsEl.innerHTML = `<div class="weather-item">
@@ -101,7 +100,7 @@ function showWeatherData(data) {
 
     `;
 
-  let otherDayForcast = "";
+  let forecast = "";
   data.daily.forEach((e, idx) => {
     if (idx == 0) {
       currentTempEl.innerHTML = `
@@ -120,7 +119,7 @@ function showWeatherData(data) {
                 
             `;
     } else {
-      otherDayForcast += `
+      forecast += `
             <div  class="weather-forecast-item">
                 <div class="day">${window
                   .moment(e.dt * 1000)
@@ -137,5 +136,5 @@ function showWeatherData(data) {
     }
   });
 
-  weatherForecastEl.innerHTML = otherDayForcast;
-}
+  weatherForecastEl.innerHTML = forecast;
+};
